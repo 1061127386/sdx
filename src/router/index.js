@@ -4,16 +4,41 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 const routes = [
+  // 
   {
     path: '/',
-    name: 'home',
-    redirect:"/login"
+    redirect:"/home"
   },
+  // 登录页面
   {
     path: '/login',
-    name: 'login',
+    name: 'Login',
     component: () => import("../views/login.vue")
   },
+  // 主页
+  {
+    path:"/home",
+    name:"Home",
+    component:()=>import("../views/home.vue")
+  },
+  // 个人中心
+  {
+    path: "/user",
+    name: "User",
+    component: () => import("../views/users/user.vue")
+  },
+  // 个人信息
+  {
+    path: "/info",
+    name: "Info",
+    component: () => import("../views/users/info.vue")
+  },
+  // 版本信息
+  {
+    path: "/version",
+    name: "Version",
+    component: () => import("../views/users/info.vue")
+  }
   // {
   //   path: '/about',
   //   name: 'About',
@@ -24,10 +49,26 @@ const routes = [
   // }
 ]
 
+
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
 })
+
+
+router.beforeEach((to, from, next) => {
+  let token=localStorage.getItem("token")
+  // 如果是去往登录页 或者 没有本地token就重定向到登录页
+  if(to.fullPath=="/login"){
+    next()
+  } else if (!token){
+    next("/login")
+  }
+
+  // 其他有token的情况下就不阻碍
+  next()
+})
+
 
 export default router

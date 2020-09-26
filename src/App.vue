@@ -8,6 +8,7 @@
 *{
   margin: 0;
   padding: 0;
+  outline-style: none;
 }
 html{
   font-size: 62.5%;
