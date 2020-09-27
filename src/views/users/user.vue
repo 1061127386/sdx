@@ -5,81 +5,114 @@
     <div class="main">
       <div class="m-head">
         <img src="../../assets/images/users/user.png" alt="" />
-        <div class="jie">这是我的个人简介！！</div>
+        <div class="jie">{{ userInfo.remark }}</div>
 
         <div class="m-h-name">
           <div>
             <span>姓名</span>
-            <b>老张</b>
+            <b>{{ userInfo.nickName }}</b>
           </div>
           <div>
             <span>联系方式</span>
-            <b>110-119-120</b>
+            <b>{{ userInfo.phone }}</b>
           </div>
         </div>
       </div>
 
+      <div class="m-list">
+        <van-nav-bar
+          @click-right="$router.push('/info')"
+          @click-left="$router.push('/info')"
+        >
+          <template #left>
+            <img
+              src="../../assets/images/users/Personal information.png"
+              alt=""
+            />
+            <span>个人中心</span>
+          </template>
+          <template #right>
+            <van-icon name="arrow" color="#ccc" size="18" />
+          </template>
+        </van-nav-bar>
 
-        <div class="m-list">
+        <van-nav-bar
+          @click-right="$toast.fail('当前功能正在建设当中!')"
+          @click-left="$toast.fail('当前功能正在建设当中!')"
+        >
+          <template #left>
+            <img src="../../assets/images/users/money.png" alt="" />
+            <span>支付中心</span>
+          </template>
+          <template #right>
+            <van-icon name="arrow" color="#ccc" size="18" />
+          </template>
+        </van-nav-bar>
 
-            <van-nav-bar>
-                <template #left>
-                    <img src="../../assets/images/users/Personal information.png" alt="">
-                    <span>个人中心</span>
-                </template>
-                <template #right>
-                    <van-icon name="arrow" color="#ccc" size="18" />
-                </template>
-            </van-nav-bar>
+        <van-nav-bar
+          @click-right="$toast.fail('当前功能正在建设当中!')"
+          @click-left="$toast.fail('当前功能正在建设当中!')"
+        >
+          <template #left>
+            <img src="../../assets/images/users/change Password.png" alt="" />
+            <span>修改密码</span>
+          </template>
+          <template #right>
+            <van-icon name="arrow" color="#ccc" size="18" />
+          </template>
+        </van-nav-bar>
 
-            <van-nav-bar>
-                <template #left>
-                    <img src="../../assets/images/users/money.png" alt="">
-                    <span>支付中心</span>
-                </template>
-                <template #right>
-                    <van-icon name="arrow" color="#ccc" size="18" />
-                </template>
-            </van-nav-bar>
+        <van-nav-bar
+          @click-left="$router.push('/version')"
+          @click-right="$router.push('/version')"
+        >
+          <template #left>
+            <img
+              src="../../assets/images/users/Version Information.png"
+              alt=""
+            />
+            <span>版本信息</span>
+          </template>
+          <template #right>
+            <span>版本1.0</span>
+            <van-icon name="arrow" color="#ccc" size="18" />
+          </template>
+        </van-nav-bar>
 
-            <van-nav-bar>
-                <template #left>
-                    <img src="../../assets/images/users/change Password.png" alt="">
-                    <span>修改密码</span>
-                </template>
-                <template #right>
-                    <van-icon name="arrow" color="#ccc" size="18" />
-                </template>
-            </van-nav-bar>
+        <van-nav-bar @click-left="show = true" @click-right="show = true">
+          <template #left>
+            <img src="../../assets/images/users/qing.png" alt="" />
+            <span>清除缓存</span>
+          </template>
+          <template #right>
+            <van-icon name="arrow" color="#ccc" size="18" />
+          </template>
+        </van-nav-bar>
+      </div>
 
-            <van-nav-bar>
-                <template #left>
-                    <img src="../../assets/images/users/Version Information.png" alt="">
-                    <span>版本信息</span>
-                </template>
-                <template #right>
-                    <span>版本1.0</span> <van-icon name="arrow" color="#ccc" size="18" />
-                </template>
-            </van-nav-bar>
+      <van-dialog
+        width="70%"
+        v-model="show"
+        title="是否清除缓存？"
+        show-cancel-button
+        confirm-button-color="#4789FF"
+        @confirm="btn1"
+      />
 
-            <van-nav-bar>
-                <template #left>
-                    <img src="../../assets/images/users/qing.png" alt="">
-                    <span>清除缓存</span>
-                </template>
-                <template #right>
-                    <van-icon name="arrow" color="#ccc" size="18" />
-                </template>
-            </van-nav-bar>
-
-        </div>
-
+      <van-dialog
+        width="70%"
+        v-model="show2"
+        title="是否退出登录？"
+        show-cancel-button
+        confirm-button-color="#4789FF"
+        @confirm="btn2"
+      />
     </div>
 
-    <div class="tui">退出登录</div>
+    <div class="tui" @click="show2 = true">退出登录</div>
 
     <div class="foot">
-      <div>
+      <div @click="$router.push('/home')">
         <i class="el-icon-s-home"></i>
         <div>系统功能</div>
       </div>
@@ -96,9 +129,45 @@
 </template>
 
 <script>
+import { GetUsers } from "@/axios/api";
 export default {
   data() {
-    return {};
+    return {
+      userInfo: {},
+      show: false,
+      show2: false,
+    };
+  },
+  created() {
+    GetUsers().then((res) => {
+      if (res.status == 200 || res.status == 500) {
+        if (res.data.errCode == 0) {
+          // console.log(res.data.data)
+          this.userInfo = res.data.data;
+        } else {
+          this.$toast.fail(res.data.message);
+        }
+      } else {
+        this.$toast.fail("接口数据出错！请联系客服。");
+      }
+    });
+  },
+  methods: {
+    btn1() {
+      this.$toast.success("清除成功！");
+    },
+    btn2() {
+      this.$toast.loading({
+        message: "退出中...",
+        forbidClick: true,
+        loadingType: "spinner",
+        duration: 1200,
+        onClose() {
+          localStorage.removeItem("token");
+          this.$router.push("/login");
+        },
+      });
+    },
   },
 };
 </script>
@@ -114,6 +183,10 @@ export default {
     height: 25%;
     width: 100%;
     background-color: #073087;
+  }
+
+  .van-dialog {
+    top: 50%;
   }
 
   .main {
@@ -163,30 +236,29 @@ export default {
       }
     }
 
-    .m-list{
+    .m-list {
+      /deep/.van-nav-bar {
+        border-radius: 0.5rem;
+        margin-bottom: 1px;
 
-        /deep/.van-nav-bar{
-            border-radius: .5rem;
-            margin-bottom: 1px;
-
-            .van-nav-bar__left{
-                display: flex;
-                align-items: center;
-                img{
-                    margin-right: 1rem;
-                    width: 2rem;
-                }
-                /* span{
+        .van-nav-bar__left {
+          display: flex;
+          align-items: center;
+          img {
+            margin-right: 1rem;
+            width: 2rem;
+          }
+          /* span{
                 } */
-            }
-
-            .van-nav-bar__right{
-                color: #ccc;
-                span{
-                    font-size: 1.6rem;
-                }
-            }
         }
+
+        .van-nav-bar__right {
+          color: #ccc;
+          span {
+            font-size: 1.6rem;
+          }
+        }
+      }
     }
   }
 

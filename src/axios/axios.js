@@ -25,7 +25,7 @@ instance.interceptors.request.use(config=>{
 // 接收到服务器响应后的拦截
 instance.interceptors.response.use(response=>{
 
-
+// console.log(response)
     return response
 },error=>{
     return Promise.reject(error)

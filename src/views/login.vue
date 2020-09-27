@@ -42,15 +42,21 @@ export default {
         username: this.username,
         password: this.password,
       }).then((res) => {
-        if (res.data.errCode == 0) {
+
+        if(res.status==200 || res.status==500){
+          if (res.data.errCode == 0) {
           //  console.log(res.data.data)
           // 将token保存到本地
           localStorage.setItem("token", res.data.data);
           // 跳转到主页
           this.$router.push("/home");
         } else {
-          alert("你输入的账户或者密码有误！");
+          this.$toast.fail(res.data.message);
         }
+        }else{
+          this.$router.push("/404")
+        }
+
       });
 
     },

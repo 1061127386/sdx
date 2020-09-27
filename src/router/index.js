@@ -37,7 +37,17 @@ const routes = [
   {
     path: "/version",
     name: "Version",
-    component: () => import("../views/users/info.vue")
+    component: () => import("../views/users/version.vue")
+  },
+  // 跳转404页面
+  {
+    path: '/404',
+    component: () => import("../views/404.vue")
+  },
+  // 统配用户输入的不存在的地址重定向到404页面
+  {
+    path:"/*",
+    redirect:"/404"
   }
   // {
   //   path: '/about',
