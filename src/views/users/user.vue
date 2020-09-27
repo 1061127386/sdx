@@ -29,7 +29,7 @@
               src="../../assets/images/users/Personal information.png"
               alt=""
             />
-            <span>个人中心</span>
+            <span>个人信息</span>
           </template>
           <template #right>
             <van-icon name="arrow" color="#ccc" size="18" />

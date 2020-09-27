@@ -44,13 +44,17 @@ const routes = [
     path: "/custlist",
     name: "CustList",
     component: () => import("../views/cust/custlist.vue")
-  }
-  ,
+  },
   //客户详情页
   {
-    path: "/cust",
+    path: "/cust/:id",
     name: "Cust",
     component: () => import("../views/cust/cust.vue")
+  },
+  //修改或新增客户  动态参数加问号 代表可有可无 没有问号就是跳转必须携带参数过去
+  {
+    path: "/edit/:id?",
+    component: () => import("../views/cust/cust-edit.vue")
   },
 
   // 跳转404页面

@@ -13,10 +13,10 @@
       <div class="h-info">
         <img src="../../assets/images/cust/头像.png" alt="" />
         <div>
-          <h3>名称：laozhang</h3>
-          <p>电话：13888888888</p>
+          <h3>名称：{{custData.custName}}</h3>
+          <p>电话：{{custData.telephone}}</p>
         </div>
-        <span>客户信息</span>
+        <span @click="To('/edit/'+custData.id)">客户信息</span>
       </div>
     </div>
 
@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import {PostCust} from "../../axios/api"
 export default {
   data() {
     return {
@@ -59,8 +60,24 @@ export default {
           txt: "当年收入",
         },
       ],
+      custData:{}
     };
   },
+  created(){
+    PostCust(this.$route.params.id).then(res=>{
+      if(res.data.errCode==0){
+       console.log(res.data.data)
+       this.custData=res.data.data
+      }else{
+        this.$toast.fail(res.data.message)
+      }
+    })
+  },
+  methods:{
+    To(path){
+      this.$router.push(path)
+    }
+  }
 };
 </script>
  
