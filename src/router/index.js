@@ -39,6 +39,20 @@ const routes = [
     name: "Version",
     component: () => import("../views/users/version.vue")
   },
+  //客户列表页
+  {
+    path: "/custlist",
+    name: "CustList",
+    component: () => import("../views/cust/custlist.vue")
+  }
+  ,
+  //客户详情页
+  {
+    path: "/cust",
+    name: "Cust",
+    component: () => import("../views/cust/cust.vue")
+  },
+
   // 跳转404页面
   {
     path: '/404',

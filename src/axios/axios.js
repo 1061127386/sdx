@@ -11,7 +11,7 @@ const instance=axios.create({
 //  浏览器请求前的拦截
 instance.interceptors.request.use(config=>{
     let token=localStorage.getItem("token")
-
+    // console.log(token)
     if(token){
         config.headers["x-auth-token"] = token
     }

@@ -21,7 +21,7 @@
     </div>
 
     <div class="main">
-      <div>
+      <div  @click="To('/custlist')">
         <img src="../assets/images/home/myclients.png" />
         <div>
           <span>我的客户</span>
