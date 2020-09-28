@@ -60,7 +60,7 @@
         <div
           class="foot"
           :class="list.length > 3 ? 'static' : ''"
-          @click="getList(++current, ++size)"
+          @click="getList(++current, size)"
         >
           展开跟多<van-icon name="arrow-down" size="14" />
         </div>

@@ -16,101 +16,155 @@
     <ul class="list">
       <li>
         <span><b>*</b> 客户名称</span>
-        <input type="text" v-model="custList.custName"/>
+        <input type="text" v-model="custList.custName" />
       </li>
       <li>
         <span><b>*</b> 联系方式</span>
-        <input type="text" v-model="custList.telephone"/>
+        <input type="text" v-model="custList.telephone" />
       </li>
       <li>
         <span>学历</span>
-        <input type="text" v-model="custList.education"/>
+        <input type="text" v-model="custList.education" />
       </li>
       <li>
         <span>年龄</span>
-        <input type="number" v-model="custList.age"/>
+        <input type="number" v-model="custList.age" />
       </li>
       <li>
         <span>性别</span>
-        <input type="text" v-model="custList.sex"/>
+        <input type="text" v-model="custList.sex" />
       </li>
       <li>
         <span>所属城市</span>
-        <input type="text" v-model="custList.cityName"/>
+        <input type="text" v-model="custList.cityName" />
       </li>
       <li>
         <span>公司名称</span>
-        <input type="text" v-model="custList.company"/>
+        <input type="text" v-model="custList.company" />
       </li>
       <li>
         <span>职务</span>
-        <input type="text" v-model="custList.position"/>
+        <input type="text" v-model="custList.position" />
       </li>
     </ul>
 
     <div class="btn">
-      <div @click="submit" :class="(!custList.custName || !custList.telephone)?'active':''">{{edit?'保 存':'提 交'}}</div>
+      <div
+        @click="submit"
+        :class="!custList.custName || !custList.telephone ? 'active' : ''"
+      >
+        {{ edit ? "保 存" : "提 交" }}
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import {GetCustInfo,PutCustInfo,PostCustInfo} from "../../axios/api"
+import { GetCustInfo, PutCustInfo, PostCustInfo } from "../../axios/api";
 export default {
   data() {
     return {
       edit: false,
-      custList:{}
+      custList: {
+        custName: "",
+        telephone: "",
+        education: "",
+        age: 1,
+        sex: "男",
+        cityName: "",
+        company: "",
+        position: "",
+      },
     };
   },
-  created(){
-      console.log(this.$route.params.id)
-      if(this.$route.params.id){
-          this.edit=true
-          GetCustInfo(this.$route.params.id).then(res=>{
-          if(res.data.errCode==0){
-             console.log(res.data.data)
-             this.custList=res.data.data
-            //  let {id,custName,telephone,education,age,sex,cityName,company,position}=res.data.data
-            //  this.custList={id,custName,telephone,education,age,sex,cityName,company,position}
-          }else{
-              this.$toast.fail(res.data.message)
-          }
-      })
-      }
+  created() {
+    console.log("有id为编辑 没有是新增",this.$route.params.id);
+    if (this.$route.params.id) {
+      this.edit = true;
 
+      GetCustInfo(this.$route.params.id).then((res) => {
+        if (res.data.errCode == 0) {
+          // console.log(res.data.data);
+          //  this.custList=res.data.data
+          let {
+            id,
+            custName,
+            telephone,
+            education,
+            age,
+            sex,
+            cityName,
+            company,
+            position,
+          } = res.data.data;
+          this.custList = {
+            id,
+            custName,
+            telephone,
+            education,
+            age,
+            sex,
+            cityName,
+            company,
+            position,
+          };
+        } else {
+          this.$toast.fail(res.data.message);
+        }
+      });
+    }
   },
-  methods:{
-      submit(){
-          if (!this.custList.custName || !this.custList.telephone) {
-              this.$toast.fail("请输入内容！")
-              return;
-          }
-          if (this.edit) {
-              
-            //   提交修改
-            PutCustInfo(this.custList).then(res=>{
-                if (res.data.errCode==0) {
-                    this.$toast.success("修改成功！")
-                    setTimeout(() => {
-                        this.$router.back(-1)
-                    }, 2000);
-                }else{
-                    this.$toast.fail(res.data.message)
-                }
-            })
-          }else{
-            //   提交新增
-            PostCustInfo(this.custList).then(res=>{
-                if (res.data.errCode==0) {
-                        console.log(res.data)
-                }else{
-                    this.$toast.fail(res.data.message)
-                }
-            })
-          }
+  methods: {
+    submit() {
+      // 效验每一项是否填完完毕
+      for (let key in this.custList) {
+        if (!this.custList[key]) {
+          this.$toast.fail("请输入完信息！");
+          return;
+        }
       }
-  }
+      // 效验性别
+      if (this.custList.sex == "男" || this.custList.sex == "女") {
+        // 判断是在修改还是在新增
+        if (this.edit) {
+          //   提交修改
+          PutCustInfo(this.custList).then((res) => {
+            if (res.data.errCode == 0) {
+              this.$toast.success("修改成功！");
+                  // 延迟跳转
+              setTimeout(() => {
+                this.$router.back(-1);
+              }, 2000);
+            } else {
+              this.$toast.fail(res.data.message);
+            }
+          });
+        } else {
+          //   提交新增
+          // console.log(this.custList);
+          PostCustInfo(this.custList).then(
+            (res) => {
+              if (res.data.errCode==0) {
+                // console.log(res.data)
+                  this.$toast.success("添加成功！");
+                  // 延迟跳转
+                  setTimeout(() => {
+                    this.$router.back(-1);
+                  }, 2000);
+              }else{
+                  this.$toast.fail(res.data.message)
+              }
+            },
+            (err) => {
+              this.$toast.fail("名字重复！请重新输入。")
+            }
+          );
+        }
+      } else {
+        this.$toast.fail("性别有误！");
+      }
+    },
+  },
 };
 </script>
  
@@ -185,8 +239,8 @@ export default {
   padding: 1rem;
   box-sizing: border-box;
 
-  .active{
-     background-color: rgba(34, 99, 230, .3);
+  .active {
+    background-color: rgba(34, 99, 230, 0.3);
   }
   div {
     margin: 0 auto;

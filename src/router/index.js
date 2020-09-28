@@ -45,7 +45,7 @@ const routes = [
     name: "CustList",
     component: () => import("../views/cust/custlist.vue")
   },
-  //客户详情页
+  //客户主页
   {
     path: "/cust/:id",
     name: "Cust",
@@ -56,7 +56,11 @@ const routes = [
     path: "/edit/:id?",
     component: () => import("../views/cust/cust-edit.vue")
   },
-
+  //客户详情页
+  {
+    path: "/custinfo/:id",
+    component: () => import("../views/cust/cust-info.vue")
+  },
   // 跳转404页面
   {
     path: '/404',

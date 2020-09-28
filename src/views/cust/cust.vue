@@ -16,21 +16,21 @@
           <h3>名称：{{custData.custName}}</h3>
           <p>电话：{{custData.telephone}}</p>
         </div>
-        <span @click="To('/edit/'+custData.id)">客户信息</span>
+        <span @click="To('/custinfo/'+custData.id)">客户信息</span>
       </div>
     </div>
 
     <van-tabs v-model="active" swipeable>
-      <van-tab v-for="(val, idx) in list" :key="idx">
+      <van-tab v-for="(val, idx) in custData.datas" :key="idx">
         <template #title>
           <i :class="[val.class, active == idx ? 'active' : '']"></i>
-          <span :class="active == idx ? 'active' : ''">{{ val.txt }}</span>
+          <span :class="active == idx ? 'active' : ''">{{ val.title }}</span>
         </template>
       </van-tab>
     </van-tabs>
 
     <div class="main">
-        123
+        <p v-for="(val,idx) in 4" :key="idx" v-show="idx==active">{{val}}</p>
     </div>
   </div>
 </template>
@@ -41,7 +41,7 @@ export default {
   data() {
     return {
       active: 1,
-      list: [
+      classes: [
         {
           class: "iconfont icon-fenxi",
           txt: "收入分析",
@@ -66,8 +66,24 @@ export default {
   created(){
     PostCust(this.$route.params.id).then(res=>{
       if(res.data.errCode==0){
-       console.log(res.data.data)
        this.custData=res.data.data
+        
+        // for (let idx = 0; idx < this.custData.datas.length; idx++) {
+        //   let num=idx
+        //   if(this.custData.datas[idx]["sort"]>this.custData.datas[++num]["sort"] && num<this.custData.datas.length){
+        //       console.log(idx)
+        //   }
+        // }
+        let newarr=[]
+          this.custData.datas.map(val=>{
+            let idx=val.sort
+            newarr[--idx]=val
+            newarr[idx].class=this.classes[idx].class
+          })
+      this.custData.datas=newarr
+
+       console.log(JSON.parse(JSON.stringify(this.custData.datas)));
+
       }else{
         this.$toast.fail(res.data.message)
       }
@@ -129,6 +145,9 @@ export default {
       margin-left: rem;
       h3 {
         font-size: 1.5rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       p {
         color: #666;
@@ -137,11 +156,13 @@ export default {
     span {
       position: absolute;
       right: 0;
-      top: 20%;
+      top: 10%;
       color: white;
       background-color: #ffcc33;
       line-height: 2.6rem;
       padding: 0 0.7rem;
+      width: 6rem;
+      text-align: center;
       border-top-left-radius: 1.3rem;
       border-bottom-left-radius: 1.3rem;
     }
