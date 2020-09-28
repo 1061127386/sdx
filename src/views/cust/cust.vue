@@ -86,14 +86,16 @@ export default {
        this.custData=res.data.data
 
         let newarr=[]
+        
           this.custData.datas.map(val=>{
             let idx=val.sort
             newarr[--idx]=val
             newarr[idx].class=this.classes[idx].class
           })
+
       this.custData.datas=newarr
 
-       console.log(JSON.parse(JSON.stringify(this.custData.datas[3].data)));
+      //  console.log(JSON.parse(JSON.stringify(this.custData.datas[3].data)));
 
       }else{
         this.$toast.fail(res.data.message)
@@ -153,7 +155,7 @@ export default {
       margin: 2rem;
     }
     div {
-      margin-left: rem;
+      width: 55%;
       h3 {
         font-size: 1.5rem;
         white-space: nowrap;
@@ -223,7 +225,6 @@ export default {
   div{
     /* margin: 4%; */
     position: relative;
-    padding-left: 4%;
     /* height: 100%;  这个高度有问题 会定死在。。*/
     box-sizing: border-box;
     background-color: #fff;

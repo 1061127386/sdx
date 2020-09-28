@@ -6,7 +6,7 @@
           <van-icon name="arrow-left" size="26" @click="$router.go(-1)" />
         </template>
         <template #right>
-          <van-icon name="wap-home-o" size="26" @click="To('/home')" />
+          <van-icon name="wap-home-o" size="26" @click="$router.push('/home')" />
         </template>
       </van-nav-bar>
 
@@ -14,7 +14,7 @@
             <img src="../../assets/images/cust/头像.png" alt="">
             <span>{{custList.custName}}</span>
         </div>
-        <div class="right" @click="$router.push('/edit/'+custList.id)">
+        <div class="right" @click="$router.push('/cust-edit/'+custList.id)">
             <van-icon name="todo-list-o" /> 编辑信息
         </div>
 
@@ -29,39 +29,39 @@
             <ul class="i-list">
                 <li>
                     <p>客户名称</p>
-                    <span>啊实打实大</span>
+                    <span>{{custList.custName}}</span>
                 </li>
                 <li>
                     <p>联系电话</p>
-                    <span>1665113165</span>
+                    <span>{{custList.telephone}}</span>
                 </li>
                 <li>
                     <p>学历</p>
-                    <span>本科</span>
+                    <span>{{custList.education}}</span>
                 </li>
                 <li>
                     <p>性别</p>
-                    <span>萨达</span>
+                    <span>{{custList.sex}}</span>
                 </li>
                 <li>
                     <p>年龄</p>
-                    <span>33</span>
+                    <span>{{custList.age}}</span>
                 </li>
                 <li>
                     <p>所属城市</p>
-                    <span>阿斯顿撒</span>
+                    <span>{{custList.cityName}}</span>
                 </li>
                 <li>
                     <p>公司名称</p>
-                    <span>请问王企鹅无群</span>
+                    <span>{{custList.company}}</span>
                 </li>
                 <li>
                     <p>职位</p>
-                    <span>湿哒哒</span>
+                    <span>{{custList.position}}</span>
                 </li>
                 <li>
                     <p>录入时间</p>
-                    <span>12312312</span>
+                    <span>{{custList.createTime}}</span>
                 </li>
             </ul>
         </div>
@@ -81,7 +81,7 @@ export default {
   created() {
     GetCustInfo(this.$route.params.id).then((res) => {
       if (res.data.errCode == 0) {
-        console.log(res.data.data);
+        // console.log(res.data.data);
         this.custList = res.data.data;
       } else {
         this.$toast.fail(res.data.message);
@@ -201,8 +201,6 @@ export default {
                     display: inline-block;
                     color: #aaa;
                     width: 7rem;
-                }
-                span{
                 }
             }
             li:nth-child(2){

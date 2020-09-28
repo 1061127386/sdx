@@ -4,7 +4,7 @@
       <van-nav-bar
         :title="empty ? '查询' : '客户列表信息'"
         @click-left="$router.back(-1)"
-        @click-right="To('/edit')"
+        @click-right="To('/cust-edit')"
       >
         <template #left>
           <van-icon name="arrow-left" size="25" />
@@ -54,7 +54,7 @@
           </div>
           <div class="btn">
             <van-button round type="info" color="#003399">新增拜访</van-button>
-            <van-button round type="info" color="#003399">拜访记录</van-button>
+            <van-button round type="info" color="#003399" @click="To('/visit-list/'+val.custName)">拜访记录</van-button>
           </div>
         </li>
         <div

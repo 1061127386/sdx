@@ -50,18 +50,15 @@ export default {
             }
             }
         }
-    },
-    data () {
-        return {
-
-        }
-    },
-    methods:{
     }
 }
 </script>
  
 <style lang = "less" scoped>
+.assets{
+    box-sizing: border-box;
+    
+}
 
 .head{
     background-color: #fff;

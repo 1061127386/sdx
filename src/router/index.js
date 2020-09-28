@@ -53,13 +53,28 @@ const routes = [
   },
   //修改或新增客户  动态参数加问号 代表可有可无 没有问号就是跳转必须携带参数过去
   {
-    path: "/edit/:id?",
+    path: "/cust-edit/:id?",
     component: () => import("../views/cust/cust-edit.vue")
   },
   //客户详情页
   {
     path: "/custinfo/:id",
     component: () => import("../views/cust/cust-info.vue")
+  },
+  // 获取走访列表信息详情
+  {
+    path: "/visit-list/:custName?",
+    component: () => import("../views/visit/visit-list.vue")
+  },
+  // 新增/修改 走访客户信息
+  {
+    path: "/visit-edit/:id",
+    component: () => import("../views/visit/visit-edit.vue")
+  },
+  // 获取走访信息详情
+  {
+    path: "/visit-info/:id",
+    component: () => import("../views/visit/visit-info.vue")
   },
   // 跳转404页面
   {

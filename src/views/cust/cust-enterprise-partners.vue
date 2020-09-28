@@ -35,7 +35,13 @@ export default {
 </script>
  
 <style lang = "less" scoped>
+.enterprise{
+    box-sizing: border-box;
+    padding: 4% 0;
+    width: 100%;
+}
 ul{
+    padding: 0 4%;
     li{
         display:flex;
         padding: 4% 0;

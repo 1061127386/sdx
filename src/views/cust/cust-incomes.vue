@@ -22,10 +22,10 @@ export default {
 
         }
     },
-    created(){
-        let str="100万"
-        console.log(str.replace("万",""))
-    }
+    // created(){
+    //     let str="100万"
+    //     console.log(str.replace("万",""))
+    // }
 }
 </script>
  

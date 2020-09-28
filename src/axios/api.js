@@ -26,3 +26,12 @@ export const PutCustInfo = params => api.put("/api/cust" ,params)
 
 // 新增客户信息
 export const PostCustInfo = params => api.post("/api/cust", params)
+
+// 走访列表信息
+export const GetVisitList = params => api.get("/api/visit", {params})
+
+// 获取走访信息详情
+export const GetVisitInfo = id => api.get("/api/visit/"+id)
+
+// 新增走访信息
+export const PostVisit = params => api.post("/api/visit", { params })
