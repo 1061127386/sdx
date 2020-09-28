@@ -3,7 +3,8 @@ import axios from "axios";
 
 // 创建拦截请求实例
 const instance=axios.create({
-    baseURL:"https://www.ahsj.link/nebula-api"
+    baseURL:"https://www.ahsj.link/nebula-api",
+    // timeout:5000 // 请求返回数据等待时间 超过就断开请求 
 })
 
 

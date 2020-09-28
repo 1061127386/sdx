@@ -30,17 +30,31 @@
     </van-tabs>
 
     <div class="main">
-        <p v-for="(val,idx) in 4" :key="idx" v-show="idx==active">{{val}}</p>
+        <Assets :data="custData.datas[0].data" v-show="active==0"/>
+        <EnterPartner :data="custData.datas[1].data" v-show="active==1"/>
+        <EnterPartner :two="false" :data="custData.datas[2].data" v-show="active==2"/>
+        <Incomes :data="custData.datas[3].data" v-show="active==3"/>
     </div>
   </div>
 </template>
 
 <script>
+// 请求连接
 import {PostCust} from "../../axios/api"
+// 组件
+// 收入分析
+import Assets from "./cust-assets"
+// 旗下企业  &&  合作伙伴
+import EnterPartner from "./cust-enterprise-partners"
+// 当年收入
+import Incomes from "./cust-incomes"
 export default {
+  components:{
+    Assets,EnterPartner,Incomes
+  },
   data() {
     return {
-      active: 1,
+      active: 3,
       classes: [
         {
           class: "iconfont icon-fenxi",
@@ -60,20 +74,17 @@ export default {
           txt: "当年收入",
         },
       ],
-      custData:{}
+       // 客户全部数据
+      custData:{
+        datas:[{},{},{},{}]
+      },
     };
   },
   created(){
     PostCust(this.$route.params.id).then(res=>{
       if(res.data.errCode==0){
        this.custData=res.data.data
-        
-        // for (let idx = 0; idx < this.custData.datas.length; idx++) {
-        //   let num=idx
-        //   if(this.custData.datas[idx]["sort"]>this.custData.datas[++num]["sort"] && num<this.custData.datas.length){
-        //       console.log(idx)
-        //   }
-        // }
+
         let newarr=[]
           this.custData.datas.map(val=>{
             let idx=val.sort
@@ -82,7 +93,7 @@ export default {
           })
       this.custData.datas=newarr
 
-       console.log(JSON.parse(JSON.stringify(this.custData.datas)));
+       console.log(JSON.parse(JSON.stringify(this.custData.datas[3].data)));
 
       }else{
         this.$toast.fail(res.data.message)
@@ -205,7 +216,17 @@ export default {
   height: calc(75% - 6rem);
   width: 100vw;
   box-sizing: border-box;
-  overflow: scroll;
+  /* overflow-x: hidden; */
+  overflow-y: scroll;
   padding: 4%;
+/* 让每一个块的高度都占满父容器 */
+  div{
+    /* margin: 4%; */
+    position: relative;
+    padding-left: 4%;
+    /* height: 100%;  这个高度有问题 会定死在。。*/
+    box-sizing: border-box;
+    background-color: #fff;
+  }
 }
 </style>
