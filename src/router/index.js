@@ -68,7 +68,7 @@ const routes = [
   },
   // 新增/修改 走访客户信息
   {
-    path: "/visit-edit/:id",
+    path: "/visit-edit/:id?",
     component: () => import("../views/visit/visit-edit.vue")
   },
   // 获取走访信息详情

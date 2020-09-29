@@ -1,6 +1,7 @@
 <template>
   <div class="main">
     <div class="head">
+
       <van-nav-bar
         :title="empty ? '查询' : '拜访记录'"
         @click-left="$router.back(-1)"
@@ -27,6 +28,7 @@
           </template>
         </van-search>
       </form>
+
     </div>
 
     <div class="list">
@@ -62,6 +64,7 @@
           </div>
         </ul>
       </van-list>
+
     </div>
   </div>
 </template>
@@ -80,7 +83,7 @@ export default {
     };
   },
   methods: {
-    //   跳转时间
+    //   跳转事件
     To(path){
         this.$router.push(path)
     },
@@ -92,7 +95,7 @@ export default {
         size: this.size,
       }).then((res) => {
         if (res.data.errCode == 0) {
-          console.log(JSON.parse(JSON.stringify(res.data.data.records)));
+          // console.log(JSON.parse(JSON.stringify(res.data.data.records)));
 
           let data = res.data.data;
         //   判断是否有总数

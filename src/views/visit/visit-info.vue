@@ -131,6 +131,7 @@ export default {
         overflow: hidden;
         text-overflow: ellipsis;
         margin-bottom: 1rem;
+        width: 90%;
 
         span {
           font-size: 1.5rem;
