@@ -63,15 +63,15 @@ const routes = [
   },
   // 获取走访列表信息详情
   {
-    path: "/visit-list/:custName?",
+    path: "/visit-list/:custId?/:custName?",
     component: () => import("../views/visit/visit-list.vue")
   },
-  // 新增/修改 走访客户信息
+  // 新增走访客户信息
   {
-    path: "/visit-edit/:id?",
+    path: "/visit-edit/:custId?/:custName?",
     component: () => import("../views/visit/visit-edit.vue")
   },
-  // 获取走访信息详情
+  // 获取走访 id 信息详情
   {
     path: "/visit-info/:id",
     component: () => import("../views/visit/visit-info.vue")

@@ -53,8 +53,8 @@
             </div>
           </div>
           <div class="btn">
-            <van-button round type="info" color="#003399">新增拜访</van-button>
-            <van-button round type="info" color="#003399" @click="To('/visit-list/'+val.custName)">拜访记录</van-button>
+            <van-button round type="info" color="#003399" @click="To('/visit-list/'+val.id)">新增拜访</van-button>
+            <van-button round type="info" color="#003399" @click="To('/visit-list/'+val.id+'/'+val.custName)">拜访记录</van-button>
           </div>
         </li>
         <div
@@ -139,7 +139,7 @@ export default {
       size: this.size,
     }).then((res) => {
       if (res.data.errCode == 0) {
-        //   console.log(res.data.data)
+          // console.log(res.data.data)
         this.list = res.data.data.records;
       } else {
         this.$toast.fail(res.data.message);

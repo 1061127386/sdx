@@ -103,11 +103,12 @@ export default {
             console.log(JSON.parse(JSON.stringify(res.data.data)));
 
           let data = res.data.data;
+            this.list.push(...res.data.data.records);
+
           if (data.total == this.list.length) {
             this.finished = true;
           } else {
             this.finished = false;
-            this.list.push(...res.data.data.records);
           }
         } else {
           this.$toast.fail(res.data.message);

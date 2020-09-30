@@ -12,8 +12,8 @@
     <!-- 表单区域开始 -->
     <van-form @submit="onSubmit" colon v-if="showForm">
       <van-field
-        v-model="username"
-        name="username"
+        v-model="visitObj.custName"
+        name="custName"
         disabled
         placeholder="下拉选择/搜索"
         right-icon="arrow-down"
@@ -22,14 +22,14 @@
         :rules="[{ required: true, message: '请填写客户名' }]"
       >
         <template #label> 客户名称 </template>
-        <template #input v-if="username">
-          {{ username }}
+        <template #input v-if="visitObj.custName">
+          {{ visitObj.custName }}
         </template>
       </van-field>
 
       <van-field
-        v-model="username2"
-        name="title"
+        v-model="visitObj.visitTitle"
+        name="visitTitle"
         label="拜访标题"
         placeholder="请输入"
         required
@@ -37,8 +37,8 @@
       />
 
       <van-field
-        v-model="username3"
-        name="原因"
+        v-model="visitObj.visitReason"
+        name="visitReason"
         disabled
         placeholder="请选择"
         right-icon="arrow"
@@ -47,29 +47,31 @@
         :rules="[{ required: true, message: '请填写拜访原因' }]"
       >
         <template #label> 拜访原因 </template>
-        <template #input v-if="username3">
-          {{ username3 }}
+        <template #input v-if="visitObj.visitReason">
+          {{ visitObj.visitReason }}
         </template>
       </van-field>
 
+      <!-- 时间绑定变量必须是基本数据字符串类型 不能是对象 -->
       <van-field
-        v-model="username4"
-        name="时间"
+        name="visitTime"
         placeholder="请选择"
         disabled
         right-icon="arrow"
         required
         @click="showDate = true"
-        :rules="[{ required: true, message: '请填写拜访时间' }]"
+        :rules="[{ required: false, message: '请填写拜访时间' }]"
       >
         <template #label> 拜访时间 </template>
-        <template #input v-if="username4">
-          {{ username4 }}
+
+        <template #input v-if="visitObj.visitTime">
+          {{ visitObj.visitTime }}
         </template>
       </van-field>
 
       <van-field
-        v-model="message"
+        v-model="visitObj.visitAddress"
+        name="visitAddress"
         rows="2"
         autosize
         label="拜访地址"
@@ -80,7 +82,8 @@
         :rules="[{ required: false }]"
       />
       <van-field
-        v-model="message2"
+        v-model="visitObj.visitSituation"
+        name="visitSituation"
         rows="2"
         autosize
         label="拜访情况"
@@ -91,7 +94,8 @@
         :rules="[{ required: false }]"
       />
       <van-field
-        v-model="message3"
+        v-model="visitObj.collectSituation"
+        name="collectSituation"
         rows="3"
         autosize
         label="竞争信息收集情况"
@@ -108,10 +112,10 @@
         </van-button>
       </div>
     </van-form>
-  
-  <VisitSearch @addName="addNamefu" v-else/>
-  
-<!-- 表单功能popup开始 -->
+
+    <VisitSearch @addName="addNamefu" v-else />
+
+    <!-- 表单功能popup开始 -->
     <van-popup v-model="showyuanyin" position="bottom">
       <van-picker
         show-toolbar
@@ -123,7 +127,7 @@
 
     <van-popup v-model="showDate" position="bottom">
       <van-datetime-picker
-        v-model="currentDate"
+        v-model="visitObj.visitTime"
         type="date"
         :columns-order="['year', 'month', 'day']"
         :formatter="formatter"
@@ -131,14 +135,15 @@
         @confirm="putDate"
       />
     </van-popup>
-<!-- 表单功能popup开始 -->
+    <!-- 表单功能popup开始 -->
     <!-- 表单区域结束 -->
-
   </div>
 </template>
 
 <script>
 import VisitSearch from "./visit-edit-search";
+import { PostVisit } from "../../axios/api";
+
 export default {
   components: {
     VisitSearch,
@@ -148,23 +153,26 @@ export default {
       showForm: true, // 选择客户隐藏表单
       showDate: false, // 显示日期时间选择器
       showyuanyin: false, // 显示拜访原因选择器
-      username: "",
-      username2: "",
-      username3: "",
-      username4: "",
-      message: "我",
-      message2: "没",
-      message3: "有",
-      currentDate: new Date(),
+      visitObj: {
+        custId: this.$route.params.custId,
+        custName: this.$route.params.custName,
+        visitTime: "2020-10-01 00:00:00",
+        visitAddress: "河南省洛阳市...",
+        visitTitle: "",
+        visitReason: "",
+        visitSituation: "没",
+        collectSituation: "有",
+      },
     };
   },
   methods: {
     // 接收子传父的值
-    addNamefu(val){
-      console.log(val)
-      this.username=val.custName
+    addNamefu(val) {
+      // console.log(val);
+      this.visitObj.custName = val.custName;
+      this.visitObj.custId = val.id;
       // 接收到之后关闭这个搜索组件
-      this.showForm=true
+      this.showForm = true;
     },
     // 关联时间选择器
     formatter(type, val) {
@@ -181,63 +189,39 @@ export default {
     },
     // 日期选择器关联的值
     putYuantin(value, index) {
-      console.log(`当前值：${value}, 当前索引：${index}`);
+      // console.log(`当前值：${value}, 当前索引：${index}`);
+      this.visitObj.visitReason = value;
       // 确定后关闭popup层 即隐藏
       this.showyuanyin = false;
-      this.username3=value
     },
     // 提交时间事件
     putDate(val) {
-      // let d = new Date(val);
-      // let youWant =
-      //   d.getFullYear() +
-      //   "-" +
-      //   (d.getMonth() + 1) +
-      //   "-" +
-      //   d.getDate() +
-      //   " " +
-      //   d.getHours() +
-      //   ":" +
-      //   d.getMinutes() +
-      //   ":" +
-      //   d.getSeconds();
-      // console.log(youWant);
-
-      //   var date = new Date(val)
-      //       var y = date.getFullYear()
-      //       var m = date.getMonth() + 1
-      //       m = m < 10 ? ('0' + m) : m
-      //       var d = date.getDate()
-      //       d = d < 10 ? ('0' + d) : d
-      //       let  time = y + '-' + m + '-' + d
-      // console.log(time)
-      function checkTime(i) {
-        if (i < 10) {
-          i = "0" + i;
-        }
-        return i;
-      }
-      var date = new Date(val);
-      let date_value =
-        date.getFullYear() +
-        "-" +
-        (date.getMonth() + 1) +
-        "-" +
-        date.getDate() +
-        " " +
-        checkTime(date.getHours()) +
-        ":" +
-        checkTime(date.getMinutes()) +
-        ":" +
-        checkTime(date.getSeconds());
-      console.log(date_value);
-      this.showDate=false
-      this.username4=date_value
-
+      // console.log(val)
+      // console.log(new Date().toLocaleDateString())
+      this.visitObj.visitTime = val;
+      this.showDate = false;
     },
     // 提交表单
     onSubmit(values) {
-      console.log("submit", values);
+      // console.log(this.visitObj);
+      // values.visitTime = this.visitObj.visitTime;
+      // console.log("submit", values);
+
+      PostVisit(this.visitObj).then((res) => {
+        // console.log(res);
+        if(res.status==200){
+          if(res.data.errCode==0){
+            this.$toast("添加成功！")
+            setTimeout(() => {
+              this.$router.back(-1)
+            }, 600);
+          }else{
+            this.$toast.fail("缺少必要参数！")
+          }
+        }else{
+          this.$toast.fail("缺少必要参数！")
+        }
+      });
     },
   },
 };
@@ -306,7 +290,7 @@ export default {
   }
 
   .btn {
-    margin-top: 2rem;
+    /* margin-top: 2rem; */
     box-sizing: border-box;
     padding: 1rem;
     /* background-color: #fff;

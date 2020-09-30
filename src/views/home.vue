@@ -28,7 +28,7 @@
           <p>MY CLIENTS</p>
         </div>
       </div>
-      <div>
+      <div @click="To('/visit-list')">
         <img src="../assets/images/home/customer.png" />
         <div>
           <span>客户关怀</span>

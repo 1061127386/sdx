@@ -21,9 +21,11 @@
           <span>录入人：李白</span>
         </div>
       </div>
-      <div class="right" @click="$router.push('/visit-edit/' + custList.id)">
+
+      <!-- <div class="right" @click="$router.push('/visit-edit/' + custList.id)">
         <van-icon name="todo-list-o" /> 修改拜访
-      </div>
+      </div> -->
+
     </div>
     <div class="bg">
       <img src="../../assets/images/cust/底纹.png" />
@@ -83,7 +85,7 @@ export default {
   created() {
     GetVisitInfo(this.$route.params.id).then((res) => {
       if (res.data.errCode == 0) {
-        console.log(JSON.parse(JSON.stringify(res.data.data)));
+        // console.log(JSON.parse(JSON.stringify(res.data.data)));
 
         this.custList = res.data.data;
       } else {
@@ -139,7 +141,8 @@ export default {
       }
     }
   }
-  .right {
+
+  /* .right {
     color: #e2e8f3;
     background-color: #365dac;
     width: 11rem;
@@ -154,7 +157,8 @@ export default {
       font-size: 2rem;
       margin: 0 0.5rem;
     }
-  }
+  } */
+
 
   .van-hairline--bottom::after {
     border-width: 0px;

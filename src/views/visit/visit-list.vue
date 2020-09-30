@@ -5,12 +5,13 @@
       <van-nav-bar
         :title="empty ? '查询' : '拜访记录'"
         @click-left="$router.back(-1)"
-        @click-right="To('/visit-edit')"
+        @click-right="To('/visit-edit/'+($route.params.custId==undefined?' ':$route.params.custId)+'/'+($route.params.custName==undefined?'':$route.params.custName))"
       >
         <template #left>
           <van-icon name="arrow-left" size="25" />
         </template>
-        <template #right v-if="!empty">
+        <!-- <template #right v-if="!empty"> -->
+        <template #right>
           <div>新增</div>
         </template>
       </van-nav-bar>
@@ -125,14 +126,16 @@ export default {
         size: this.size,
       }).then((res) => {
         if (res.data.errCode == 0) {
-        //   console.log(JSON.parse(JSON.stringify(res.data.data)));
+          // console.log(JSON.parse(JSON.stringify(res.data)));
 
           let data = res.data.data;
+            this.list.push(...res.data.data.records);
+          // 先将请求的数组数据合并到本地
+          // 再计算返回的total总数据 和 本地的数组长度是否一致
           if (data.total == this.list.length) {
             this.finished = true;
           } else {
             this.finished = false;
-            this.list.push(...res.data.data.records);
           }
         } else {
           this.$toast.fail(res.data.message);
@@ -146,8 +149,8 @@ export default {
     },
   },
   created() {
-    //   console.log(this.$route.params.custName)
-    this.value = this.$route.params.custName;
+      // console.log(this.$route.params)
+    this.value = this.$route.params.custName==undefined?'':this.$route.params.custName;
     this.search(this.current);
   },
 };

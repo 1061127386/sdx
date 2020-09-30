@@ -34,4 +34,4 @@ export const GetVisitList = params => api.get("/api/visit", {params})
 export const GetVisitInfo = id => api.get("/api/visit/"+id)
 
 // 新增走访信息
-export const PostVisit = params => api.post("/api/visit", { params })
+export const PostVisit = params => api.post("/api/visit",params)
