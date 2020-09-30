@@ -35,7 +35,7 @@
           <p>MY CLIENTS</p>
         </div>
       </div>
-      <div>
+      <div @click="To('/message-list')">
         <img src="../assets/images/home/news.png" />
         <div>
           <span>消息中心</span>

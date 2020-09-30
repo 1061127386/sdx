@@ -1,2 +1,4 @@
 import Vue from "vue"
-import { } from "element-ui"
+import { Badge } from "element-ui"
+
+Vue.use(Badge)

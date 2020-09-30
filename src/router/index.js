@@ -76,6 +76,16 @@ const routes = [
     path: "/visit-info/:id",
     component: () => import("../views/visit/visit-info.vue")
   },
+  // 消息中心列表
+  {
+    path: "/message-list",
+    component: () => import("../views/message/message-list.vue")
+  },
+  // 消息中心详情
+  {
+    path: "/message-info/:id",
+    component: () => import("../views/message/message-info.vue")
+  },
   // 跳转404页面
   {
     path: '/404',

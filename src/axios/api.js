@@ -35,3 +35,12 @@ export const GetVisitInfo = id => api.get("/api/visit/"+id)
 
 // 新增走访信息
 export const PostVisit = params => api.post("/api/visit",params)
+
+// 消息中心列表
+export const GetMessageList = params => api.get("/api/message", { params })
+    
+// 标记信息为已读
+export const GetMessageUpdates = params => api.put("/api/message/updates", params)
+
+// 消息中心详情
+export const GetMessageInfo = id => api.get("/api/message/"+id)
