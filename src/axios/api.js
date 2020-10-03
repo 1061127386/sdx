@@ -45,3 +45,29 @@ export const GetMessageInfo = id => api.get("/api/message/"+id)
 // 标记信息为已读
 export const PutMessageUpdates = id => api.put("/api/message/updates?id=" + id)
 
+// 全部订单
+export const GetOrderList1 = params => api.get("/order/v1/list",{params})
+
+// 待发货单
+export const GetOrderList2 = params => api.get("/order/v1/list/1", { params })
+
+// 待收货单
+export const GetOrderList3 = params => api.get("/order/v1/list/2", { params })
+
+// 待评价单
+export const GetOrderList4 = params => api.get("/order/v1/list/3", { params })
+
+// 确认收货
+export const confirmReceipt = id => api.post("/order/v1/confirmReceipt/"+id)
+
+// 获取订单详情
+export const orderInfo = id => api.get("/order/v1/orderInfo/" + id)
+
+// 发货
+export const orderSend = params => api.post("/order/v1/send",params)
+
+// 评价详情
+export const EvaluateInfo = id => api.get("/order/v1/evaluateInfo/"+id)
+
+// 发送订单评价
+export const SendEvaluate = params => api.post("/order/v1/evaluate", params)

@@ -157,6 +157,7 @@ export default {
       this.$toast.success("清除成功！");
     },
     btn2() {
+      let _this=this
       this.$toast.loading({
         message: "退出中...",
         forbidClick: true,
@@ -164,7 +165,7 @@ export default {
         duration: 1200,
         onClose() {
           localStorage.removeItem("token");
-          this.$router.push("/login");
+          _this.$router.push("/login");
         },
       });
     },

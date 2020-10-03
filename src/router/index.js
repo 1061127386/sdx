@@ -86,6 +86,21 @@ const routes = [
     path: "/message-info/:id",
     component: () => import("../views/message/message-info.vue")
   },
+  // 送货单列表
+  {
+    path: "/order",
+    component: () => import("../views/order/index.vue")
+  },
+  // 添加发货 和 订单详情
+  {
+    path: "/order_send/:id",
+    component: () => import("../views/order/order_send.vue")
+  },
+  // 评价详情
+  {
+    path: "/evaluate_info/:id",
+    component: () => import("../views/order/evaluateInfo.vue")
+  },
   // 跳转404页面
   {
     path: '/404',

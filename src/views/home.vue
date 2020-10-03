@@ -5,10 +5,10 @@
     <div class="head">
       <van-nav-bar>
         <template #left>
-          <van-icon name="arrow-left" size="26" @click="$router.go(-1)"/>
+          <van-icon name="arrow-left" size="26" @click="$router.go(-1)" />
         </template>
         <template #right>
-          <van-icon name="wap-home-o" size="26" @click="To('/home')"/>
+          <van-icon name="wap-home-o" size="26" @click="To('/home')" />
         </template>
       </van-nav-bar>
 
@@ -21,7 +21,7 @@
     </div>
 
     <div class="main">
-      <div  @click="To('/custlist')">
+      <div @click="To('/custlist')">
         <img src="../assets/images/home/myclients.png" />
         <div>
           <span>我的客户</span>
@@ -42,11 +42,20 @@
           <p>MY CLIENTS</p>
         </div>
       </div>
+
       <div>
         <img src="../assets/images/home/losistics.png" />
         <div>
           <span>物流单</span>
           <p>MY CLIENTS</p>
+        </div>
+      </div>
+
+      <div @click="To('/order')">
+        <img src="../assets/images/home/delivery.png" />
+        <div>
+          <span>送货单</span>
+          <p>DELIVERY</p>
         </div>
       </div>
     </div>
@@ -73,11 +82,11 @@ export default {
   data() {
     return {};
   },
-  methods:{
-      To(path){
-          this.$router.push(path)
-      }
-  }
+  methods: {
+    To(path) {
+      this.$router.push(path);
+    },
+  },
 };
 </script>
  
@@ -85,7 +94,8 @@ export default {
 .home {
   height: 100%;
   position: relative;
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
+  overflow: hidden;
 }
 .head {
   background-color: #003399;
@@ -130,13 +140,16 @@ export default {
 }
 
 .main {
-  height: 55%;
+  height: calc(100% - 25% - 7rem);
   display: flex;
   flex-wrap: wrap;
   padding: 8% 12%;
+  overflow-x: scroll;
   justify-content: space-between;
+  box-sizing: border-box;
 
   div {
+    height: 16rem;
     box-sizing: border-box;
     width: 48%;
     background-color: #fff;
@@ -149,25 +162,25 @@ export default {
 
     img {
       width: 4rem;
-      transform: translatey(-.8rem);
+      transform: translatey(-2rem);
     }
 
-    div{
-        position: absolute;
-        bottom: 1rem;
+    div {
+      position: absolute;
+      bottom: 1.5rem;
+      height: 4rem;
 
-        span{
-            font-size: 1.6rem;
-            font-weight: bold;
-            color: #555;
-        }
-        p{
-            margin-top: .2rem;
-            white-space: nowrap;
-            font-size: 1.2rem;
-        }
+      span {
+        font-size: 1.6rem;
+        font-weight: bold;
+        color: #555;
+      }
+      p {
+        margin-top: 0.2rem;
+        white-space: nowrap;
+        font-size: 1.2rem;
+      }
     }
-
   }
 }
 
@@ -190,7 +203,7 @@ export default {
     position: relative;
     border-radius: 50%;
     transform: translateY(-2rem);
-    border: 0.6rem solid #F5F5F5;
+    border: 0.6rem solid #f5f5f5;
     display: flex;
     align-items: center;
     justify-content: center;

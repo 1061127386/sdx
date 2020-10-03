@@ -53,10 +53,11 @@
             </div>
           </div>
           <div class="btn">
-            <van-button round type="info" color="#003399" @click="To('/visit-list/'+val.id)">新增拜访</van-button>
+            <van-button round type="info" color="#003399" @click="To('/visit-edit/'+val.id+'/'+val.custName)">新增拜访</van-button>
             <van-button round type="info" color="#003399" @click="To('/visit-list/'+val.id+'/'+val.custName)">拜访记录</van-button>
           </div>
         </li>
+
         <div
           class="foot"
           :class="list.length > 3 ? 'static' : ''"
@@ -64,6 +65,7 @@
         >
           展开跟多<van-icon name="arrow-down" size="14" />
         </div>
+
       </ul>
     </div>
   </div>
@@ -240,6 +242,7 @@ export default {
       position: static !important;
       margin-top: 1rem;
     }
+    
     .foot {
       position: absolute;
       bottom: 0;
