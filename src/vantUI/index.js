@@ -7,8 +7,10 @@
  * @Description  : 描述
  */
 import Vue from "vue";
-import { Toast, NavBar, Icon, Dialog, Tab, Tabs, Search, Empty, Button, List, Form ,
-    Field, DatetimePicker, Popup, Picker, Rate, Uploader } from "vant"
+import {
+    Toast, NavBar, Icon, Dialog, Tab, Tabs, Search, Empty, Button, List, Form,
+    Field, DatetimePicker, Popup, Picker, Rate, Uploader, Notify
+} from "vant"
 
 Vue.use(Toast)
 Vue.use(NavBar)
@@ -27,3 +29,4 @@ Vue.use(Popup);
 Vue.use(Picker);
 Vue.use(Rate);
 Vue.use(Uploader);
+Vue.use(Notify);

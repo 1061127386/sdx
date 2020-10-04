@@ -8,7 +8,7 @@
           <van-icon name="arrow-left" size="26" @click="$router.go(-1)" />
         </template>
         <template #right>
-          <van-icon name="wap-home-o" size="26" @click="To('/home')" />
+          <van-icon name="wap-home-o" size="26" @click="reload" />
         </template>
       </van-nav-bar>
 
@@ -64,7 +64,7 @@
         <van-icon name="wap-home" />
         <span>系统功能</span>
       </div>
-      <div class="call">
+      <div class="call" @click="message">
         <van-icon name="comment" />
         <span>联系</span>
       </div>
@@ -84,6 +84,20 @@ export default {
   methods: {
     To(path) {
       this.$router.push(path);
+    },
+    // 刷新本页面
+    reload() {
+      this.$notify({
+        type: "success",
+        message: "这就是主页，别点了。给你刷新下",
+        duration: 2000,
+      });
+      setTimeout(() => {
+        location.reload();
+      }, 1200);
+    },
+    message() {
+      this.$notify({ type: "danger", message: "没这功能！", duration: 2000 });
     },
   },
 };

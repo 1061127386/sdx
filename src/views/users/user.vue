@@ -116,7 +116,7 @@
         <i class="el-icon-s-home"></i>
         <div>系统功能</div>
       </div>
-      <div>
+      <div @click="message">
         <van-icon name="comment" />
         <div>联系</div>
       </div>
@@ -171,6 +171,15 @@ export default {
           localStorage.removeItem("token");
           _this.$router.push("/login");
         },
+      });
+    },
+    message() {
+      this.$notify({
+        type: "danger",
+        message: "有完没完。",
+        duration: 1800,
+        color: "red",
+        background: "#ffe1e1",
       });
     },
   },

@@ -7,7 +7,7 @@ const routes = [
   // 
   {
     path: '/',
-    redirect:"/home"
+    redirect: "/home"
   },
   // 登录页面
   {
@@ -17,9 +17,9 @@ const routes = [
   },
   // 主页
   {
-    path:"/home",
-    name:"Home",
-    component:()=>import("../views/home.vue")
+    path: "/home",
+    name: "Home",
+    component: () => import("../views/home.vue")
   },
   // 个人中心
   {
@@ -118,8 +118,8 @@ const routes = [
   },
   // 统配用户输入的不存在的地址重定向到404页面
   {
-    path:"/*",
-    redirect:"/404"
+    path: "/*",
+    redirect: "/404"
   }
   // {
   //   path: '/about',
@@ -140,11 +140,11 @@ const router = new VueRouter({
 
 
 router.beforeEach((to, from, next) => {
-  let token=localStorage.getItem("token")
+  let token = localStorage.getItem("token")
   // 如果是去往登录页 或者 没有本地token就重定向到登录页
-  if(to.fullPath=="/login"){
+  if (to.fullPath == "/login") {
     next()
-  } else if (!token){
+  } else if (!token) {
     next("/login")
   }
 
