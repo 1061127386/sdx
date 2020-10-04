@@ -43,14 +43,13 @@
         </div>
       </div>
 
-      <div>
+      <div @click="To('/logistics_list')">
         <img src="../assets/images/home/losistics.png" />
         <div>
           <span>物流单</span>
           <p>MY CLIENTS</p>
         </div>
       </div>
-
       <div @click="To('/order')">
         <img src="../assets/images/home/delivery.png" />
         <div>

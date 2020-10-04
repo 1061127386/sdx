@@ -71,3 +71,12 @@ export const EvaluateInfo = id => api.get("/order/v1/evaluateInfo/"+id)
 
 // 发送订单评价
 export const SendEvaluate = params => api.post("/order/v1/evaluate", params)
+
+// 快递单列表
+export const GetStarList = params => api.get("/api/star", { params })
+
+// 查询快递单评价详情
+export const GetStarInfo = id => api.get("/api/star/"+id)
+
+// 快递单评价
+export const PutStarInfo = params => api.get("/api/star", params)

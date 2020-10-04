@@ -8,7 +8,7 @@
  */
 import Vue from "vue";
 import { Toast, NavBar, Icon, Dialog, Tab, Tabs, Search, Empty, Button, List, Form ,
-    Field, DatetimePicker, Popup, Picker,Rate} from "vant"
+    Field, DatetimePicker, Popup, Picker, Rate, Uploader } from "vant"
 
 Vue.use(Toast)
 Vue.use(NavBar)
@@ -26,3 +26,4 @@ Vue.use(DatetimePicker);
 Vue.use(Popup);
 Vue.use(Picker);
 Vue.use(Rate);
+Vue.use(Uploader);

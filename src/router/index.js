@@ -101,6 +101,16 @@ const routes = [
     path: "/evaluate_info/:id",
     component: () => import("../views/order/evaluateInfo.vue")
   },
+  // 物流单
+  {
+    path: "/logistics_list",
+    component: () => import("../views/logistics/logistics-list.vue")
+  },
+  // 订单评价
+  {
+    path: "/order_evaluation/:id",
+    component: () => import("../views/logistics/order_evaluation.vue")
+  },
   // 跳转404页面
   {
     path: '/404',
