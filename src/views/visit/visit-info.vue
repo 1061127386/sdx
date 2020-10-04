@@ -91,7 +91,9 @@ export default {
       } else {
         this.$toast.fail(res.data.message);
       }
-    });
+    }).catch(() => {
+        this.$toast.fail("请求出错。");
+      });
   },
 };
 </script>

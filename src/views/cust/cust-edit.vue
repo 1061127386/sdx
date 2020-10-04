@@ -78,40 +78,44 @@ export default {
     };
   },
   created() {
-    console.log("有id为编辑 没有是新增",this.$route.params.id);
+    console.log("有id为编辑 没有是新增", this.$route.params.id);
     if (this.$route.params.id) {
       this.edit = true;
 
-      GetCustInfo(this.$route.params.id).then((res) => {
-        if (res.data.errCode == 0) {
-          // console.log(res.data.data);
-          //  this.custList=res.data.data
-          let {
-            id,
-            custName,
-            telephone,
-            education,
-            age,
-            sex,
-            cityName,
-            company,
-            position,
-          } = res.data.data;
-          this.custList = {
-            id,
-            custName,
-            telephone,
-            education,
-            age,
-            sex,
-            cityName,
-            company,
-            position,
-          };
-        } else {
-          this.$toast.fail(res.data.message);
-        }
-      });
+      GetCustInfo(this.$route.params.id)
+        .then((res) => {
+          if (res.data.errCode == 0) {
+            // console.log(res.data.data);
+            //  this.custList=res.data.data
+            let {
+              id,
+              custName,
+              telephone,
+              education,
+              age,
+              sex,
+              cityName,
+              company,
+              position,
+            } = res.data.data;
+            this.custList = {
+              id,
+              custName,
+              telephone,
+              education,
+              age,
+              sex,
+              cityName,
+              company,
+              position,
+            };
+          } else {
+            this.$toast.fail(res.data.message);
+          }
+        })
+        .catch(() => {
+          this.$toast.fail("请求出错。");
+        });
     }
   },
   methods: {
@@ -128,37 +132,45 @@ export default {
         // 判断是在修改还是在新增
         if (this.edit) {
           //   提交修改
-          PutCustInfo(this.custList).then((res) => {
-            if (res.data.errCode == 0) {
-              this.$toast.success("修改成功！");
-                  // 延迟跳转
-              setTimeout(() => {
-                this.$router.back(-1);
-              }, 2000);
-            } else {
-              this.$toast.fail(res.data.message);
-            }
-          });
+          PutCustInfo(this.custList)
+            .then((res) => {
+              if (res.data.errCode == 0) {
+                this.$toast.success("修改成功！");
+                // 延迟跳转
+                setTimeout(() => {
+                  this.$router.back(-1);
+                }, 2000);
+              } else {
+                this.$toast.fail(res.data.message);
+              }
+            })
+            .catch(() => {
+              this.$toast.fail("请求出错。");
+            });
         } else {
           //   提交新增
           // console.log(this.custList);
-          PostCustInfo(this.custList).then(
-            (res) => {
-              if (res.data.errCode==0) {
-                // console.log(res.data)
+          PostCustInfo(this.custList)
+            .then(
+              (res) => {
+                if (res.data.errCode == 0) {
+                  // console.log(res.data)
                   this.$toast.success("添加成功！");
                   // 延迟跳转
                   setTimeout(() => {
                     this.$router.back(-1);
                   }, 2000);
-              }else{
-                  this.$toast.fail(res.data.message)
+                } else {
+                  this.$toast.fail(res.data.message);
+                }
+              },
+              (err) => {
+                this.$toast.fail("名字重复！请重新输入。");
               }
-            },
-            (err) => {
-              this.$toast.fail("名字重复！请重新输入。")
-            }
-          );
+            )
+            .catch(() => {
+              this.$toast.fail("请求出错。");
+            });
         }
       } else {
         this.$toast.fail("性别有误！");

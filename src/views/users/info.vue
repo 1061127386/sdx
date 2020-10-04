@@ -1,6 +1,10 @@
 <template>
   <div class="info">
-    <van-nav-bar title="个人信息" @click-left="$router.back(-1)" @click-right="$router.push('/home')">
+    <van-nav-bar
+      title="个人信息"
+      @click-left="$router.back(-1)"
+      @click-right="$router.push('/home')"
+    >
       <template #left>
         <van-icon name="arrow-left" size="25" />
       </template>
@@ -28,14 +32,18 @@ export default {
     };
   },
   created() {
-    GetUserInfo().then((res) => {
-      if (res.data.errCode == 0) {
-        // console.log(res.data.data);
-        this.userInfo = res.data.data;
-      } else {
-        this.$toast.fail(res.data.message);
-      }
-    });
+    GetUserInfo()
+      .then((res) => {
+        if (res.data.errCode == 0) {
+          // console.log(res.data.data);
+          this.userInfo = res.data.data;
+        } else {
+          this.$toast.fail(res.data.message);
+        }
+      })
+      .catch(() => {
+        this.$toast.fail("请求出错。");
+      });
   },
 };
 </script>

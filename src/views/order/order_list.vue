@@ -37,7 +37,7 @@
             plain
             color="#003399"
             v-else-if="val.status == 10"
-            @click="shou(val,idx)"
+            @click="shou(val, idx)"
             >收货</van-button
           >
           <van-button
@@ -82,35 +82,41 @@ export default {
     },
     // 进入发货界面
     send(id) {
-      this.$router.push("/order_send/"+id)
+      this.$router.push("/order_send/" + id);
     },
     // 确认收货
-    shou(val,idx) {
-      console.log("收货订单：",val.serialNo);
-    let _this=this
+    shou(val, idx) {
+      console.log("收货订单：", val.serialNo);
+      let _this = this;
       this.$dialog
         .confirm({
           title: "是否确认收货?",
         })
         .then(() => {
-          confirmReceipt(val.serialNo).then((res) => {
-            if (res.data.errCode == 0) {
-              this.$toast("收货成功。");
-              _this.order.records.splice(idx,1)
-            } else {
-              this.$toast.fail(res.data.message);
-            }
-          });
+          confirmReceipt(val.serialNo)
+            .then((res) => {
+              if (res.data.errCode == 0) {
+                this.$toast("收货成功。");
+                _this.order.records.splice(idx, 1);
+              } else {
+                this.$toast.fail(res.data.message);
+              }
+            })
+            .catch(() => {
+              this.$toast.fail("请求出错。");
+            });
         })
         .catch(() => {
           console.log("取消收货。");
         });
     },
     // 评价&详情
-    evaluate(val){
+    evaluate(val) {
       // console.log(JSON.parse(JSON.stringify(val)));
-      this.$router.push("/evaluate_info/"+val.serialNo+"/?status="+val.status)
-    }
+      this.$router.push(
+        "/evaluate_info/" + val.serialNo + "/?status=" + val.status
+      );
+    },
   },
 };
 </script>

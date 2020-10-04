@@ -139,25 +139,29 @@ export default {
     };
   },
   created() {
-    GetUsers().then((res) => {
-      if (res.status == 200 || res.status == 500) {
-        if (res.data.errCode == 0) {
-          // console.log(res.data.data)
-          this.userInfo = res.data.data;
+    GetUsers()
+      .then((res) => {
+        if (res.status == 200 || res.status == 500) {
+          if (res.data.errCode == 0) {
+            // console.log(res.data.data)
+            this.userInfo = res.data.data;
+          } else {
+            this.$toast.fail(res.data.message);
+          }
         } else {
-          this.$toast.fail(res.data.message);
+          this.$toast.fail("接口数据出错！请联系客服。");
         }
-      } else {
-        this.$toast.fail("接口数据出错！请联系客服。");
-      }
-    });
+      })
+      .catch(() => {
+        this.$toast.fail("请求出错。");
+      });
   },
   methods: {
     btn1() {
       this.$toast.success("清除成功！");
     },
     btn2() {
-      let _this=this
+      let _this = this;
       this.$toast.loading({
         message: "退出中...",
         forbidClick: true,

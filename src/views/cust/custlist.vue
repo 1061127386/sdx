@@ -53,8 +53,20 @@
             </div>
           </div>
           <div class="btn">
-            <van-button round type="info" color="#003399" @click="To('/visit-edit/'+val.id+'/'+val.custName)">新增拜访</van-button>
-            <van-button round type="info" color="#003399" @click="To('/visit-list/'+val.id+'/'+val.custName)">拜访记录</van-button>
+            <van-button
+              round
+              type="info"
+              color="#003399"
+              @click="To('/visit-edit/' + val.id + '/' + val.custName)"
+              >新增拜访</van-button
+            >
+            <van-button
+              round
+              type="info"
+              color="#003399"
+              @click="To('/visit-list/' + val.id + '/' + val.custName)"
+              >拜访记录</van-button
+            >
           </div>
         </li>
 
@@ -65,7 +77,6 @@
         >
           展开跟多<van-icon name="arrow-down" size="14" />
         </div>
-
       </ul>
     </div>
   </div>
@@ -90,20 +101,24 @@ export default {
         keyword: this.value,
         current: pages,
         size: size,
-      }).then((res) => {
-        if (res.data.errCode == 0) {
-          //  console.log(res.data.data)
-          this.list = res.data.data.records;
-          //  获取不到数据 数组就显示为空页面
-          if (this.list.length < 1) {
-            this.empty = true;
+      })
+        .then((res) => {
+          if (res.data.errCode == 0) {
+            //  console.log(res.data.data)
+            this.list = res.data.data.records;
+            //  获取不到数据 数组就显示为空页面
+            if (this.list.length < 1) {
+              this.empty = true;
+            } else {
+              this.empty = false;
+            }
           } else {
-            this.empty = false;
+            this.$toast.fail(res.data.message);
           }
-        } else {
-          this.$toast.fail(res.data.message);
-        }
-      });
+        })
+        .catch(() => {
+          this.$toast.fail("请求出错。");
+        });
     },
     // 下拉更多
     getList(pages, size) {
@@ -113,21 +128,25 @@ export default {
         keyword: this.value,
         current: pages,
         size: size,
-      }).then((res) => {
-        if (res.data.errCode == 0) {
-          //  console.log(res.data.data)
-          if (res.data.data.records.length > 1) {
-            this.list.push(...res.data.data.records);
+      })
+        .then((res) => {
+          if (res.data.errCode == 0) {
+            //  console.log(res.data.data)
+            if (res.data.data.records.length > 1) {
+              this.list.push(...res.data.data.records);
+            } else {
+              this.$toast({
+                message: "没有更多数据了！",
+                icon: "info-o",
+              });
+            }
           } else {
-            this.$toast({
-              message: "没有更多数据了！",
-              icon: "info-o",
-            });
+            this.$toast.fail(res.data.message);
           }
-        } else {
-          this.$toast.fail(res.data.message);
-        }
-      });
+        })
+        .catch(() => {
+          this.$toast.fail("请求出错。");
+        });
     },
     // 去往客户详情页
     To(path) {
@@ -139,14 +158,18 @@ export default {
     GetCustList({
       current: this.current,
       size: this.size,
-    }).then((res) => {
-      if (res.data.errCode == 0) {
+    })
+      .then((res) => {
+        if (res.data.errCode == 0) {
           // console.log(res.data.data)
-        this.list = res.data.data.records;
-      } else {
-        this.$toast.fail(res.data.message);
-      }
-    });
+          this.list = res.data.data.records;
+        } else {
+          this.$toast.fail(res.data.message);
+        }
+      })
+      .catch(() => {
+        this.$toast.fail("请求出错。");
+      });
   },
 };
 </script>
@@ -242,7 +265,7 @@ export default {
       position: static !important;
       margin-top: 1rem;
     }
-    
+
     .foot {
       position: absolute;
       bottom: 0;

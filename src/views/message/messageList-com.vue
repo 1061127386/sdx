@@ -107,8 +107,8 @@ export default {
   },
   methods: {
     showInfo(val) {
-    //   console.log(val);
-      this.$router.push("/message-info/"+val.id)
+      //   console.log(val);
+      this.$router.push("/message-info/" + val.id);
     },
   },
 };

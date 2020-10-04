@@ -24,16 +24,16 @@
 
     <van-tabs v-model="active" @click="tabFn">
       <van-tab title="全部">
-        <order_list :order="order1" @getList="getList"/>
+        <order_list :order="order1" @getList="getList" />
       </van-tab>
       <van-tab title="代发货">
-        <order_list :order="order2" @getList="getList"/>
+        <order_list :order="order2" @getList="getList" />
       </van-tab>
       <van-tab title="待收货">
-        <order_list :order="order3" @getList="getList"/>
+        <order_list :order="order3" @getList="getList" />
       </van-tab>
       <van-tab title="待评价">
-        <order_list :order="order4" @getList="getList"/>
+        <order_list :order="order4" @getList="getList" />
       </van-tab>
     </van-tabs>
   </div>
@@ -73,7 +73,7 @@ export default {
         records: [],
         total: "",
       },
-      currentIdx:1,
+      currentIdx: 1,
     };
   },
   methods: {
@@ -89,65 +89,72 @@ export default {
       }
     },
     search() {
-      let active=this.active
+      let active = this.active;
       this.getAPI(active)({
         keyword: this.value,
-        current:1,
+        current: 1,
         size: 2,
-      }).then((res) => {
-        if (res.data.errCode == 0) {
-          let data = res.data.data;
-            this.currentIdx=1
-          if (active == 0) {
-            this.order1.records = data.records;
-            this.order1.total = data.total;
-          } else if (active == 1) {
-            this.order2.records = data.records;
-            this.order2.total = data.total;
-          } else if (active == 2) {
-            this.order3.records = data.records;
-            this.order3.total = data.total;
-          } else if (active == 3) {
-            this.order4.records = data.records;
-            this.order4.total = data.total;
+      })
+        .then((res) => {
+          if (res.data.errCode == 0) {
+            let data = res.data.data;
+            this.currentIdx = 1;
+            if (active == 0) {
+              this.order1.records = data.records;
+              this.order1.total = data.total;
+            } else if (active == 1) {
+              this.order2.records = data.records;
+              this.order2.total = data.total;
+            } else if (active == 2) {
+              this.order3.records = data.records;
+              this.order3.total = data.total;
+            } else if (active == 3) {
+              this.order4.records = data.records;
+              this.order4.total = data.total;
+            }
+            //   console.log(JSON.parse(JSON.stringify(data)));
+          } else {
+            this.$toast.fail(res.data.message);
           }
-        //   console.log(JSON.parse(JSON.stringify(data)));
-        } else {
-          this.$toast.fail(res.data.message);
-        }
-      });
-
+        })
+        .catch(() => {
+          this.$toast.fail("请求出错。");
+        });
     },
     tabFn() {
       this.search();
     },
     getList() {
-      let active=this.active
-        this.getAPI(active)({
+      let active = this.active;
+      this.getAPI(active)({
         keyword: this.value,
-        current:++this.currentIdx,
+        current: ++this.currentIdx,
         size: 2,
-      }).then((res) => {
-        if (res.data.errCode == 0) {
-          let data = res.data.data;
-          if (active == 0) {
-            this.order1.records.push(...data.records);
-            this.order1.total = data.total;
-          } else if (active == 1) {
-            this.order2.records.push(...data.records);
-            this.order2.total = data.total;
-          } else if (active == 2) {
-            this.order3.records.push(...data.records);
-            this.order3.total = data.total;
-          } else if (active == 3) {
-            this.order4.records.push(...data.records);
-            this.order4.total = data.total;
+      })
+        .then((res) => {
+          if (res.data.errCode == 0) {
+            let data = res.data.data;
+            if (active == 0) {
+              this.order1.records.push(...data.records);
+              this.order1.total = data.total;
+            } else if (active == 1) {
+              this.order2.records.push(...data.records);
+              this.order2.total = data.total;
+            } else if (active == 2) {
+              this.order3.records.push(...data.records);
+              this.order3.total = data.total;
+            } else if (active == 3) {
+              this.order4.records.push(...data.records);
+              this.order4.total = data.total;
+            }
+          } else {
+            this.$toast.fail(res.data.message);
           }
-        } else {
-          this.$toast.fail(res.data.message);
-        }
-      });
-    }
+        })
+        .catch(() => {
+          this.$toast.fail("请求出错。");
+        });
+    },
   },
   created() {
     this.search();
@@ -157,7 +164,7 @@ export default {
  
 <style lang = "less" scoped>
 .order {
-    height: 100%;
+  height: 100%;
   background-color: #efefef;
   .head {
     /deep/.van-nav-bar {

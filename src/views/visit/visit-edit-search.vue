@@ -90,6 +90,8 @@ export default {
         } else {
           this.$toast.fail(res.data.message);
         }
+      }).catch(() => {
+        this.$toast.fail("请求出错。");
       });
     },
     // 下拉更多
@@ -113,6 +115,8 @@ export default {
         } else {
           this.$toast.fail(res.data.message);
         }
+      }).catch(() => {
+        this.$toast.fail("请求出错。");
       });
     },
   },

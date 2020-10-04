@@ -16,11 +16,7 @@
     <div class="list">
       <van-tabs v-model="active">
         <van-tab title="全部消息" :dot="showDot1 || showDot2">
-          <messageList
-            :isSort="isSort"
-            :list="list"
-            :toplist="toplist"
-          />
+          <messageList :isSort="isSort" :list="list" :toplist="toplist" />
         </van-tab>
         <van-tab title="系统消息" :dot="showDot1">
           <messageList
@@ -71,29 +67,33 @@ export default {
     GetMessageList({
       current: 1,
       size: 50,
-    }).then((res) => {
-      if (res.data.errCode == 0) {
-        res.data.data.records.map((val) => {
-          // 分离 置顶和未置顶
-          if (val.top == 1) {
-            this.toplist.push(val);
-          } else {
-            this.list.push(val);
-          }
-
-          // 判断是否有未读的
-          if (val.isReader == 0) {
-            if (val.type == 1) {
-              this.showDot1 = true;
-            } else if (val.type == 2) {
-              this.showDot2 = true;
+    })
+      .then((res) => {
+        if (res.data.errCode == 0) {
+          res.data.data.records.map((val) => {
+            // 分离 置顶和未置顶
+            if (val.top == 1) {
+              this.toplist.push(val);
+            } else {
+              this.list.push(val);
             }
-          }
-        });
-      }else{
-        this.$toast.fail(res.data.message)
-      }
-    });
+
+            // 判断是否有未读的
+            if (val.isReader == 0) {
+              if (val.type == 1) {
+                this.showDot1 = true;
+              } else if (val.type == 2) {
+                this.showDot2 = true;
+              }
+            }
+          });
+        } else {
+          this.$toast.fail(res.data.message);
+        }
+      })
+      .catch(() => {
+        this.$toast.fail("请求出错。");
+      });
   },
 };
 </script>

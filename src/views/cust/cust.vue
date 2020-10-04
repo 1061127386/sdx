@@ -13,10 +13,10 @@
       <div class="h-info">
         <img src="../../assets/images/cust/头像.png" alt="" />
         <div>
-          <h3>名称：{{custData.custName}}</h3>
-          <p>电话：{{custData.telephone}}</p>
+          <h3>名称：{{ custData.custName }}</h3>
+          <p>电话：{{ custData.telephone }}</p>
         </div>
-        <span @click="To('/custinfo/'+custData.id)">客户信息</span>
+        <span @click="To('/custinfo/' + custData.id)">客户信息</span>
       </div>
     </div>
 
@@ -30,27 +30,33 @@
     </van-tabs>
 
     <div class="main">
-        <Assets :data="custData.datas[0].data" v-show="active==0"/>
-        <EnterPartner :data="custData.datas[1].data" v-show="active==1"/>
-        <EnterPartner :two="false" :data="custData.datas[2].data" v-show="active==2"/>
-        <Incomes :data="custData.datas[3].data" v-show="active==3"/>
+      <Assets :data="custData.datas[0].data" v-show="active == 0" />
+      <EnterPartner :data="custData.datas[1].data" v-show="active == 1" />
+      <EnterPartner
+        :two="false"
+        :data="custData.datas[2].data"
+        v-show="active == 2"
+      />
+      <Incomes :data="custData.datas[3].data" v-show="active == 3" />
     </div>
   </div>
 </template>
 
 <script>
 // 请求连接
-import {PostCust} from "../../axios/api"
+import { PostCust } from "../../axios/api";
 // 组件
 // 收入分析
-import Assets from "./cust-assets"
+import Assets from "./cust-assets";
 // 旗下企业  &&  合作伙伴
-import EnterPartner from "./cust-enterprise-partners"
+import EnterPartner from "./cust-enterprise-partners";
 // 当年收入
-import Incomes from "./cust-incomes"
+import Incomes from "./cust-incomes";
 export default {
-  components:{
-    Assets,EnterPartner,Incomes
+  components: {
+    Assets,
+    EnterPartner,
+    Incomes,
   },
   data() {
     return {
@@ -74,39 +80,42 @@ export default {
           txt: "当年收入",
         },
       ],
-       // 客户全部数据
-      custData:{
-        datas:[{},{},{},{}]
+      // 客户全部数据
+      custData: {
+        datas: [{}, {}, {}, {}],
       },
     };
   },
-  created(){
-    PostCust(this.$route.params.id).then(res=>{
-      if(res.data.errCode==0){
-       this.custData=res.data.data
+  created() {
+    PostCust(this.$route.params.id)
+      .then((res) => {
+        if (res.data.errCode == 0) {
+          this.custData = res.data.data;
 
-        let newarr=[]
-        
-          this.custData.datas.map(val=>{
-            let idx=val.sort
-            newarr[--idx]=val
-            newarr[idx].class=this.classes[idx].class
-          })
+          let newarr = [];
 
-      this.custData.datas=newarr
+          this.custData.datas.map((val) => {
+            let idx = val.sort;
+            newarr[--idx] = val;
+            newarr[idx].class = this.classes[idx].class;
+          });
 
-      //  console.log(JSON.parse(JSON.stringify(this.custData.datas[3].data)));
+          this.custData.datas = newarr;
 
-      }else{
-        this.$toast.fail(res.data.message)
-      }
-    })
+          //  console.log(JSON.parse(JSON.stringify(this.custData.datas[3].data)));
+        } else {
+          this.$toast.fail(res.data.message);
+        }
+      })
+      .catch(() => {
+        this.$toast.fail("请求出错。");
+      });
   },
-  methods:{
-    To(path){
-      this.$router.push(path)
-    }
-  }
+  methods: {
+    To(path) {
+      this.$router.push(path);
+    },
+  },
 };
 </script>
  
@@ -221,8 +230,8 @@ export default {
   /* overflow-x: hidden; */
   overflow-y: scroll;
   padding: 4%;
-/* 让每一个块的高度都占满父容器 */
-  div{
+  /* 让每一个块的高度都占满父容器 */
+  div {
     /* margin: 4%; */
     position: relative;
     /* height: 100%;  这个高度有问题 会定死在。。*/

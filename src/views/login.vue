@@ -34,31 +34,32 @@ export default {
   },
   methods: {
     login() {
-        // 判断输入框是否有输入。
-      if(!this.username || !this.password){
-        return this.$toast.fail('请正确输入账号密码！');
+      // 判断输入框是否有输入。
+      if (!this.username || !this.password) {
+        return this.$toast.fail("请正确输入账号密码！");
       }
       GetToken({
         username: this.username,
         password: this.password,
-      }).then((res) => {
-
-        if(res.status==200 || res.status==500){
-          if (res.data.errCode == 0) {
-          //  console.log(res.data.data)
-          // 将token保存到本地
-          localStorage.setItem("token", res.data.data);
-          // 跳转到主页
-          this.$router.push("/home");
-        } else {
-          this.$toast.fail(res.data.message);
-        }
-        }else{
-          this.$router.push("/404")
-        }
-
-      });
-
+      })
+        .then((res) => {
+          if (res.status == 200 || res.status == 500) {
+            if (res.data.errCode == 0) {
+              //  console.log(res.data.data)
+              // 将token保存到本地
+              localStorage.setItem("token", res.data.data);
+              // 跳转到主页
+              this.$router.push("/home");
+            } else {
+              this.$toast.fail(res.data.message);
+            }
+          } else {
+            this.$router.push("/404");
+          }
+        })
+        .catch(() => {
+          this.$toast.fail("请求出错。");
+        });
     },
   },
 };

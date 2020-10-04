@@ -45,7 +45,7 @@
         color="#ffd21e"
         void-icon="star"
         void-color="#eee"
-        :readonly="status==30"
+        :readonly="status == 30"
       />
       <span> {{ InfoData.prodConformityPoint * 2 }}分 </span>
     </div>
@@ -57,7 +57,7 @@
         color="#ff8d5b"
         void-icon="star"
         void-color="#eee"
-        :readonly="status==30"
+        :readonly="status == 30"
       />
       <span> {{ InfoData.logisticsSpeedPoint * 2 }}分 </span>
     </div>
@@ -68,7 +68,7 @@
         :size="30"
         void-icon="star"
         void-color="#eee"
-        :readonly="status==30"
+        :readonly="status == 30"
       />
       <span> {{ InfoData.serviceQualityPoint * 2 }}分 </span>
     </div>
@@ -80,10 +80,10 @@
       rows="5"
       type="textarea"
       placeholder="请输入评价"
-      :disabled="status==30"
+      :disabled="status == 30"
     />
 
-    <div class="btn" v-if="status==20">
+    <div class="btn" v-if="status == 20">
       <div @click="submit">提交评论</div>
     </div>
   </div>
@@ -96,19 +96,23 @@ export default {
   data() {
     return {
       InfoData: {},
-      status:30, // 订单状态值 20未评价 30已评价
+      status: 30, // 订单状态值 20未评价 30已评价
     };
   },
   created() {
-    this.status=this.$route.query.status
-    EvaluateInfo(this.$route.params.id).then((res) => {
-      if (res.data.errCode == 0) {
-        this.InfoData = res.data.data;
-        // console.log(JSON.parse(JSON.stringify(res.data.data)));
-      } else {
-        this.$toast.fail(res.data.message);
-      }
-    });
+    this.status = this.$route.query.status;
+    EvaluateInfo(this.$route.params.id)
+      .then((res) => {
+        if (res.data.errCode == 0) {
+          this.InfoData = res.data.data;
+          // console.log(JSON.parse(JSON.stringify(res.data.data)));
+        } else {
+          this.$toast.fail(res.data.message);
+        }
+      })
+      .catch(() => {
+        this.$toast.fail("请求出错。");
+      });
   },
   methods: {
     submit() {

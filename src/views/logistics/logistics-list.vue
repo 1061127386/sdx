@@ -132,8 +132,7 @@ export default {
       this.$router.push("/order_evaluation/" + val.id);
     },
     showInfo(val) {
-      console.log("订单详情：",JSON.parse(JSON.stringify(val)));
-      
+      console.log("订单详情：", JSON.parse(JSON.stringify(val)));
     },
   },
   created() {

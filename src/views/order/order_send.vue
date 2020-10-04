@@ -44,7 +44,7 @@
         label="收货人"
         placeholder="请输入收货人"
         :rules="[{ required: true }]"
-        :disabled="infoData.status!=0"
+        :disabled="infoData.status != 0"
       />
       <van-field
         v-model="infoData.linkPhone"
@@ -53,7 +53,7 @@
         label="联系电话"
         placeholder="请输入联系电话"
         :rules="[{ required: true }]"
-        :disabled="infoData.status!=0"
+        :disabled="infoData.status != 0"
       />
       <van-field
         v-model="infoData.address"
@@ -63,7 +63,7 @@
         type="textarea"
         placeholder="请输入收货地址"
         :rules="[{ required: true }]"
-        :disabled="infoData.status!=0"
+        :disabled="infoData.status != 0"
       />
       <van-field
         v-model="infoData.logisticsCode"
@@ -72,9 +72,9 @@
         label="物流单号"
         placeholder="请输入物流单号"
         :rules="[{ required: true }]"
-        :disabled="infoData.status!=0"
+        :disabled="infoData.status != 0"
       />
-      <div class="btn" v-if="infoData.status==0">
+      <div class="btn" v-if="infoData.status == 0">
         <van-button round block type="info" native-type="submit">
           确认发货消息
         </van-button>
@@ -92,28 +92,36 @@ export default {
     };
   },
   created() {
-    orderInfo(this.$route.params.id).then((res) => {
-      if (res.data.errCode == 0) {
-        this.infoData = res.data.data;
-        // console.log(JSON.parse(JSON.stringify(this.infoData)));
-      } else {
-        this.$toast.fail(res.data.message);
-      }
-    });
+    orderInfo(this.$route.params.id)
+      .then((res) => {
+        if (res.data.errCode == 0) {
+          this.infoData = res.data.data;
+          // console.log(JSON.parse(JSON.stringify(this.infoData)));
+        } else {
+          this.$toast.fail(res.data.message);
+        }
+      })
+      .catch(() => {
+        this.$toast.fail("请求出错。");
+      });
   },
   methods: {
     send() {
-      orderSend(this.infoData).then(res=>{
-          if (res.data.errCode==0) {
-              this.$toast("发货成功！")
-              setTimeout(() => {
-                  this.$router.back(-1)
-              }, 1000);
-          }else{
-              this.$toast.fail(res.data.message)
-              this.$router.back(-1)
+      orderSend(this.infoData)
+        .then((res) => {
+          if (res.data.errCode == 0) {
+            this.$toast("发货成功！");
+            setTimeout(() => {
+              this.$router.back(-1);
+            }, 1000);
+          } else {
+            this.$toast.fail(res.data.message);
+            this.$router.back(-1);
           }
-      })
+        })
+        .catch(() => {
+          this.$toast.fail("请求出错。");
+        });
     },
   },
 };

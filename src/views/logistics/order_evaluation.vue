@@ -99,13 +99,13 @@
         maxlength="60"
         placeholder="写几句评价"
         show-word-limit
-        :rules="[{ required: false}]"
+        :rules="[{ required: false }]"
       />
 
       <van-field
         name="uploader"
         class="uploader"
-        :rules="[{ required: false}]"
+        :rules="[{ required: false }]"
       >
         <template #input>
           <van-uploader
@@ -222,25 +222,25 @@ export default {
     },
     onSubmit(obj) {
       console.log(obj);
-      if (obj.rate1==0 || obj.rate2==0 || obj.rate3==0 || !obj.txt) {
-         return this.$toast.fail("请评论打分后，再次提交。")
+      if (obj.rate1 == 0 || obj.rate2 == 0 || obj.rate3 == 0 || !obj.txt) {
+        return this.$toast.fail("请评论打分后，再次提交。");
       }
       console.log(JSON.parse(JSON.stringify(this.starData)));
-      PutStarInfo().then((res) => {
-        if (res.data.errCode == 0) {
-        //   console.log(JSON.parse(JSON.stringify(res.data)));
-          this.$toast("评论成功。");
-          setTimeout(() => {
-                this.$router.back(-1)
-          }, 1000);
-        } else {
-          this.$toast.fail(res.data.message);
-        }
-      })
-      .catch(() => {
-        this.$toast.fail("请求出错。");
-      });
-      
+      PutStarInfo()
+        .then((res) => {
+          if (res.data.errCode == 0) {
+            //   console.log(JSON.parse(JSON.stringify(res.data)));
+            this.$toast("评论成功。");
+            setTimeout(() => {
+              this.$router.back(-1);
+            }, 1000);
+          } else {
+            this.$toast.fail(res.data.message);
+          }
+        })
+        .catch(() => {
+          this.$toast.fail("请求出错。");
+        });
     },
     // 显示图片预览组件
     showImg(idx) {

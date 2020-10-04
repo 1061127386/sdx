@@ -221,6 +221,8 @@ export default {
         }else{
           this.$toast.fail("缺少必要参数！")
         }
+      }).catch(() => {
+        this.$toast.fail("请求出错。");
       });
     },
   },
