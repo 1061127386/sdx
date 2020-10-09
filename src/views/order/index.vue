@@ -23,19 +23,24 @@
     </div>
 
     <van-tabs v-model="active" @click="tabFn">
-      <van-tab title="全部">
-        <order_list :order="order1" @getList="getList" />
-      </van-tab>
-      <van-tab title="代发货">
-        <order_list :order="order2" @getList="getList" />
-      </van-tab>
-      <van-tab title="待收货">
-        <order_list :order="order3" @getList="getList" />
-      </van-tab>
-      <van-tab title="待评价">
-        <order_list :order="order4" @getList="getList" />
-      </van-tab>
+      <van-tab title="全部" />
+      <van-tab title="代发货" />
+      <van-tab title="待收货" />
+      <van-tab title="待评价" />
     </van-tabs>
+        <order_list :order="order"/>
+
+        <footer v-if="order.records.length != 0">
+          <div
+        class="getList"
+        v-if="order.records.length < order.total"
+        @click="getList"
+      >
+        展开跟多<van-icon name="arrow-down" size="14" />
+      </div>
+      <div class="none" v-else>没有更多了。。。</div>
+        </footer>
+
   </div>
 </template>
 
@@ -57,19 +62,7 @@ export default {
     return {
       value: "",
       active: 0,
-      order1: {
-        records: [],
-        total: "",
-      },
-      order2: {
-        records: [],
-        total: "",
-      },
-      order3: {
-        records: [],
-        total: "",
-      },
-      order4: {
+      order: {
         records: [],
         total: "",
       },
@@ -77,6 +70,7 @@ export default {
     };
   },
   methods: {
+    // 根据tab标签栏的下标 返回对应的的api请求
     getAPI(active) {
       if (active == 0) {
         return GetOrderList1;
@@ -99,20 +93,8 @@ export default {
           if (res.data.errCode == 0) {
             let data = res.data.data;
             this.currentIdx = 1;
-            if (active == 0) {
-              this.order1.records = data.records;
-              this.order1.total = data.total;
-            } else if (active == 1) {
-              this.order2.records = data.records;
-              this.order2.total = data.total;
-            } else if (active == 2) {
-              this.order3.records = data.records;
-              this.order3.total = data.total;
-            } else if (active == 3) {
-              this.order4.records = data.records;
-              this.order4.total = data.total;
-            }
-            //   console.log(JSON.parse(JSON.stringify(data)));
+            this.order.records = data.records;
+            this.order.total = data.total;
           } else {
             this.$toast.fail(res.data.message);
           }
@@ -124,6 +106,7 @@ export default {
     tabFn() {
       this.search();
     },
+    // 下拉获取
     getList() {
       let active = this.active;
       this.getAPI(active)({
@@ -134,19 +117,8 @@ export default {
         .then((res) => {
           if (res.data.errCode == 0) {
             let data = res.data.data;
-            if (active == 0) {
-              this.order1.records.push(...data.records);
-              this.order1.total = data.total;
-            } else if (active == 1) {
-              this.order2.records.push(...data.records);
-              this.order2.total = data.total;
-            } else if (active == 2) {
-              this.order3.records.push(...data.records);
-              this.order3.total = data.total;
-            } else if (active == 3) {
-              this.order4.records.push(...data.records);
-              this.order4.total = data.total;
-            }
+            this.order.records.push(...data.records);
+            this.order.total = data.total;
           } else {
             this.$toast.fail(res.data.message);
           }
@@ -164,8 +136,9 @@ export default {
  
 <style lang = "less" scoped>
 .order {
-  height: 100%;
+  /* height: 100%; // 使用百分比会固定死高度，要自适应就不要设置高度 让元素自动撑开。 */
   background-color: #efefef;
+  
   .head {
     /deep/.van-nav-bar {
       background-color: #003399;
@@ -204,6 +177,22 @@ export default {
   .van-tabs__content {
     margin-top: 0.5rem;
     height: 100%;
+  }
+}
+
+footer{
+  background-color: #efefef;
+  .getList {
+    line-height: 4rem;
+    text-align: center;
+    background-color: #fff;
+    width: 100%;
+    color: #203399;
+    font-weight: 600;
+  }
+  .none {
+    line-height: 3rem;
+    text-align: center;
   }
 }
 </style>

@@ -58,15 +58,6 @@
           >
         </div>
       </li>
-
-      <div
-        class="getList"
-        v-if="order.records.length < order.total"
-        @click="getList"
-      >
-        展开跟多<van-icon name="arrow-down" size="14" />
-      </div>
-      <div class="none" v-else>没有更多了。。。</div>
     </ul>
   </div>
 </template>
@@ -76,10 +67,6 @@ import { confirmReceipt } from "@/axios/api";
 export default {
   props: ["order"],
   methods: {
-    // 下拉获取
-    getList() {
-      this.$emit("getList");
-    },
     // 进入发货界面
     send(id) {
       this.$router.push("/order_send/" + id);
@@ -113,9 +100,11 @@ export default {
     // 评价&详情
     evaluate(val) {
       // console.log(JSON.parse(JSON.stringify(val)));
-      this.$router.push(
-        "/evaluate_info/" + val.serialNo + "/?status=" + val.status
-      );
+      this.$router.push({
+        path: "/evaluate_info/" + val.serialNo + "/?status=" + val.status,
+      });
+      // this.$router.push({path:"/evaluate_info/" + val.serialNo + "/?status=" + val.status,query:val});
+      // this.$router.push({name:"Evaluate",params:val,query:{id:val.serialNo,status:val.status}});
     },
   },
 };
@@ -123,8 +112,8 @@ export default {
  
 <style lang = "less" scoped>
 ul {
-  padding-bottom: 1rem;
   background-color: #efefef;
+  
   li {
     background-color: #fff;
     margin-bottom: 1rem;
@@ -184,19 +173,6 @@ ul {
         height: 3rem;
       }
     }
-  }
-
-  .getList {
-    line-height: 4rem;
-    text-align: center;
-    background-color: #fff;
-    width: 100%;
-    color: #203399;
-    font-weight: 600;
-  }
-  .none {
-    line-height: 3rem;
-    text-align: center;
   }
 }
 </style>

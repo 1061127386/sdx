@@ -99,6 +99,7 @@ const routes = [
   // 评价详情
   {
     path: "/evaluate_info/:id",
+    name:"Evaluate",
     component: () => import("../views/order/evaluateInfo.vue")
   },
   // 物流单

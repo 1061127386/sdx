@@ -90,7 +90,8 @@
 </template>
 
 <script>
-import { EvaluateInfo, SendEvaluate } from "@/axios/api";
+// 订单详情 评价评价详情 发送评价
+import { orderInfo, EvaluateInfo, SendEvaluate } from "@/axios/api";
 
 export default {
   data() {
@@ -101,18 +102,34 @@ export default {
   },
   created() {
     this.status = this.$route.query.status;
-    EvaluateInfo(this.$route.params.id)
-      .then((res) => {
-        if (res.data.errCode == 0) {
-          this.InfoData = res.data.data;
-          // console.log(JSON.parse(JSON.stringify(res.data.data)));
-        } else {
-          this.$toast.fail(res.data.message);
-        }
-      })
-      .catch(() => {
-        this.$toast.fail("请求出错。");
-      });
+
+    if (this.status == 20) {
+      orderInfo(this.$route.params.id)
+        .then((res) => {
+          if (res.data.errCode == 0) {
+            this.InfoData = res.data.data;
+            // console.log(JSON.parse(JSON.stringify(res.data)));
+          } else {
+            this.$toast.fail(res.data.message);
+          }
+        })
+        .catch(() => {
+          this.$toast.fail("请求出错。");
+        });
+    } else if (this.status == 30) {
+      EvaluateInfo(this.$route.params.id)
+        .then((res) => {
+          if (res.data.errCode == 0) {
+            this.InfoData = res.data.data;
+            // console.log(JSON.parse(JSON.stringify(res.data)));
+          } else {
+            this.$toast.fail(res.data.message);
+          }
+        })
+        .catch(() => {
+          this.$toast.fail("请求出错。");
+        });
+    }
   },
   methods: {
     submit() {
@@ -129,19 +146,19 @@ export default {
         comment,
       } = this.InfoData;
       SendEvaluate({
-        serialNo,
-        prodConformityPoint,
-        logisticsSpeedPoint,
-        serviceQualityPoint,
+        serialNo: this.$route.params.id,
+        prodConformityPoint: +prodConformityPoint,
+        logisticsSpeedPoint: +logisticsSpeedPoint,
+        serviceQualityPoint: +serviceQualityPoint,
         comment,
       })
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           if (res.data.errCode == 0) {
-            this.$toast("评价完成，准备返回。");
+            this.$toast("评价完成，准备返回。。");
             setTimeout(() => {
               this.$router.back(-1);
-            }, 1000);
+            }, 2000);
           } else {
             this.$toast.fail(res.data.message);
           }

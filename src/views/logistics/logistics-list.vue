@@ -128,7 +128,7 @@ export default {
         });
     },
     evaluation(val) {
-      console.log(val);
+      // console.log(val);
       this.$router.push("/order_evaluation/" + val.id);
     },
     showInfo(val) {
